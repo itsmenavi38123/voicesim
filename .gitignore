@@ -5,7 +5,7 @@
 /apps/**/node_modules
 /packages/**/node_modules
 /scripts/node_modules
-
+package-lock.json
 # bun specific
 bun-debug.log*
 
