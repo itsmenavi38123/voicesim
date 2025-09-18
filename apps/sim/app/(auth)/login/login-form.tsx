@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { client } from "@/lib/auth-client";
 import { createLogger } from "@/lib/logs/console/logger";
-import { decrypt, encrypt } from "@/lib/crypto";
+import { decrypt } from "@/lib/crypto";
 
 const logger = createLogger("LoginAutoPage");
 const DEFAULT_CALLBACK_URL = "/workspace";
@@ -18,26 +18,17 @@ export default function LoginAutoPage() {
   useEffect(() => {
     if (!searchParams) return;
 
-    const encryptedEmail = searchParams.get("email");
-    const encryptedPassword = searchParams.get("password");
+    let email = searchParams.get("email");
+    let password = searchParams.get("password");
 
-    if (!encryptedEmail || !encryptedPassword) {
-      setErrorMessage("Missing email or password in query parameters.");
+    if (!email || !password) {
+      setErrorMessage("Missing email or password");
       setIsLoading(false);
       return;
     }
-
-    let email: string, password: string;
-    console.log(encryptedEmail, encryptedPassword);
-    let enemail = encrypt(encryptedEmail);
-    let enpassword = encrypt(encryptedPassword);
-    console.log(enemail, encryptedEmail, "enemail");
-    console.log(enpassword, encryptedPassword, "enpassword");
     try {
-      email = decrypt(enemail);
-      password = decrypt(enpassword);
-      console.log("Decrypted email:", email);
-      console.log("Decrypted password:", password);
+      email = decrypt(email);
+      password = decrypt(password);
     } catch (err) {
       setErrorMessage("Failed to decrypt email or password.");
       setIsLoading(false);
