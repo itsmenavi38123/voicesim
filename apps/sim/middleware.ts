@@ -145,8 +145,12 @@ export async function middleware(request: NextRequest) {
 
   // Handle protected routes that require authentication
   if (url.pathname.startsWith("/workspace")) {
+    const emailParam = request.nextUrl.searchParams.get("email");
+    const newEmail = emailParam && decodeURIComponent(emailParam);
     if (!hasActiveSession) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(
+        new URL(newEmail ? `/login?email=${newEmail}` : "/login", request.url)
+      );
     }
 
     // Check if user needs email verification
