@@ -9,6 +9,7 @@ import LoopToolbarItem from '@/app/workspace/[workspaceId]/w/components/sidebar/
 import ParallelToolbarItem from '@/app/workspace/[workspaceId]/w/components/sidebar/components/toolbar/components/toolbar-parallel-block/toolbar-parallel-block'
 import { getAllBlocks } from '@/blocks'
 import type { WorkspaceUserPermissions } from '@/hooks/use-user-permissions'
+import { AgentsSection } from '../../../agents/agents-section'
 
 interface ToolbarProps {
   userPermissions: WorkspaceUserPermissions
@@ -120,13 +121,30 @@ export function Toolbar({ userPermissions, isWorkspaceSelectorVisible = false }:
       <ScrollArea className='flex-1 px-2 pb-[0.26px]' hideScrollbar={true}>
         <div className='space-y-1 pb-2'>
           {/* Regular Blocks Section */}
-          {regularBlocks.map((block) => (
-            <ToolbarBlock
-              key={block.type}
-              config={block.config}
-              disabled={!userPermissions.canEdit}
-            />
-          ))}
+          {regularBlocks.map((block) => {
+            if (block.type === 'agent') {
+              return (
+                <div key={block.type}>
+                   <ToolbarBlock
+                key={block.type}
+                config={block.config}
+                disabled={!userPermissions.canEdit}
+              />
+<AgentsSection />
+
+                </div>
+              )
+            }
+
+            // For all other blocks, show normally
+            return (
+              <ToolbarBlock
+                key={block.type}
+                config={block.config}
+                disabled={!userPermissions.canEdit}
+              />
+            )
+          })}
 
           {/* Special Blocks Section (Loop & Parallel) */}
           {specialBlocks.map((block) => {
