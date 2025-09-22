@@ -419,3 +419,6 @@ export function generateRequestId(): string {
  * No-operation function for use as default callback
  */
 export const noop = () => {}
+
+
+export const voiceSimBaseUrl = process.env.NEXT_PUBLIC_APP_VOICE_SIM_URL || 'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net/api/v1'

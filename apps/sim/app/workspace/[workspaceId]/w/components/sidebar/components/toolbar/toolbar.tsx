@@ -125,13 +125,14 @@ export function Toolbar({ userPermissions, isWorkspaceSelectorVisible = false }:
             if (block.type === 'agent') {
               return (
                 <div key={block.type}>
-                   <ToolbarBlock
-                key={block.type}
-                config={block.config}
-                disabled={!userPermissions.canEdit}
-              />
-<AgentsSection />
-
+                  <ToolbarBlock
+                    key={block.type}
+                    config={block.config}
+                    disabled={!userPermissions.canEdit}
+                  />
+                  <AgentsSection
+                    userPermissions={userPermissions}
+                  />
                 </div>
               )
             }

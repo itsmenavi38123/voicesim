@@ -1,15 +1,13 @@
-const API_URL = 'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net/api/v1'
+import { voiceSimBaseUrl } from "@/lib/utils";
 
 export async function fetchAgentsFromApi(token: string) {
     try {
-
-        const response = await fetch(`${API_URL}/agents`, {
+        const response = await fetch(`${voiceSimBaseUrl}/agents/`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
         })
-        console.log(response, ">>>>>>>>>>>>>>>")
         if (!response.ok) {
             throw new Error(`API responded with status ${response.status}`)
         }

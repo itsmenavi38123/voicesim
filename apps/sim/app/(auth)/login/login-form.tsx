@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { client } from "@/lib/auth-client";
 import { quickValidateEmail } from "@/lib/email/validation";
 import { cn } from "@/lib/utils";
+import { voiceCakeApi } from "./voiceCakeApi";
 
 const validateEmailField = (emailValue: string): string[] => {
   const errors: string[] = [];
@@ -136,6 +137,7 @@ export default function LoginPage({
         password,
         callbackURL: safeCallbackUrl,
       };
+      await voiceCakeApi(payload);
       const result = await client.signIn.email(payload, {
         onError: (ctx) => {
           console.error("Login error:", ctx.error);
@@ -271,10 +273,11 @@ export default function LoginPage({
                 required
                 value={email}
                 onChange={handleEmailChange}
+                placeholder="Enter your email"
                 className={cn(
                   "border-neutral-700 bg-neutral-900 text-white placeholder:text-white/60",
                   emailErrors.length > 0 &&
-                    "border-red-500 focus-visible:ring-red-500"
+                  "border-red-500 focus-visible:ring-red-500"
                 )}
               />
               {emailErrors.length > 0 && (
@@ -303,8 +306,8 @@ export default function LoginPage({
                   className={cn(
                     "border-neutral-700 bg-neutral-900 pr-10 text-white placeholder:text-white/60",
                     showValidationError &&
-                      passwordErrors.length > 0 &&
-                      "border-red-500 focus-visible:ring-red-500"
+                    passwordErrors.length > 0 &&
+                    "border-red-500 focus-visible:ring-red-500"
                   )}
                 />
                 <button
