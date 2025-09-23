@@ -142,7 +142,6 @@ export async function middleware(request: NextRequest) {
     // Simple /w redirect to workspace root
     return NextResponse.redirect(new URL("/workspace", request.url));
   }
-
   // Handle protected routes that require authentication
   if (url.pathname.startsWith("/workspace")) {
     const emailParam = request.nextUrl.searchParams.get("email");

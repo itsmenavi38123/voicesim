@@ -5,7 +5,7 @@ import { useUserPermissionsContext } from '@/app/workspace/[workspaceId]/provide
 import type { BlockConfig } from '@/blocks/types'
 
 export type ToolbarBlockProps = {
-  config: BlockConfig
+  config: BlockConfig | any
   disabled?: boolean
 }
 
