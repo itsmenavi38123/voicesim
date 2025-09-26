@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { GithubIcon } from '@/components/icons'
 
 interface ChatHeaderProps {
@@ -23,7 +24,7 @@ export function ChatHeader({ chatConfig, starCount }: ChatHeaderProps) {
     <div className='flex items-center justify-between bg-background/95 px-6 py-4 pt-6 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-8 md:pt-4'>
       <div className='flex items-center gap-4'>
         {customImage && (
-          <img
+          <Image
             src={customImage}
             alt={`${chatConfig?.title || 'Chat'} logo`}
             className='h-8 w-8 rounded-md object-cover'

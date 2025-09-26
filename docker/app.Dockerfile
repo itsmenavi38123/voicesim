@@ -13,7 +13,7 @@ WORKDIR /app
 # Install turbo globally
 RUN bun install -g turbo
 
-COPY package.json bun.lockb* ./
+COPY package.json bun.lock ./
 RUN mkdir -p apps
 COPY apps/sim/package.json ./apps/sim/package.json
 
@@ -43,9 +43,7 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
     DOCKER_BUILD=1
 
 WORKDIR /app
-
-# Skip prebuild (linting) and run build directly with turbo
-RUN bunx turbo build
+RUN bun run build
 
 # ========================================
 # Runner Stage: Run the actual app

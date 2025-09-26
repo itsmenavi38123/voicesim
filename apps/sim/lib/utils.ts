@@ -420,5 +420,6 @@ export function generateRequestId(): string {
  */
 export const noop = () => {}
 
-
-export const voiceSimBaseUrl = process.env.NEXT_PUBLIC_APP_VOICE_SIM_URL || 'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net/api/v1'
+export const voiceSimBaseUrl =
+  process.env.NEXT_PUBLIC_APP_VOICE_SIM_URL ||
+  'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net/api/v1'

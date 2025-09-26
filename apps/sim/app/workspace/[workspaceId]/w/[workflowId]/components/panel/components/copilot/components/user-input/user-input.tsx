@@ -20,7 +20,7 @@ import {
   Check,
   ChevronRight,
   FileText,
-  Image,
+  Image as ImageIcon,
   Infinity as InfinityIcon,
   Info,
   LibraryBig,
@@ -34,6 +34,7 @@ import {
   X,
   Zap,
 } from 'lucide-react'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import {
   Button,
@@ -1601,7 +1602,7 @@ const UserInput = forwardRef<UserInputRef, UserInputProps>(
 
     const getFileIcon = (mediaType: string) => {
       if (mediaType.startsWith('image/')) {
-        return <Image className='h-5 w-5 text-muted-foreground' />
+        return <ImageIcon className='h-5 w-5 text-muted-foreground' />
       }
       if (mediaType.includes('pdf')) {
         return <FileText className='h-5 w-5 text-red-500' />
@@ -2017,14 +2018,14 @@ const UserInput = forwardRef<UserInputRef, UserInputProps>(
                 >
                   {isImageFile(file.type) && file.previewUrl ? (
                     // For images, show actual thumbnail
-                    <img
+                    <Image
                       src={file.previewUrl}
                       alt={file.name}
                       className='h-full w-full object-cover'
                     />
                   ) : isImageFile(file.type) && file.key ? (
                     // For uploaded images without preview URL, use storage URL
-                    <img
+                    <Image
                       src={file.previewUrl || file.path}
                       alt={file.name}
                       className='h-full w-full object-cover'

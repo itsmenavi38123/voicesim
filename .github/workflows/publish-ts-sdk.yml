@@ -32,9 +32,9 @@ jobs:
         working-directory: packages/ts-sdk
         run: bun run test
 
-      - name: Build package (skip lint)
+      - name: Build package
         working-directory: packages/ts-sdk
-        run: bun run build --no-lint || bun run build
+        run: bun run build
 
       - name: Get package version
         id: package_version

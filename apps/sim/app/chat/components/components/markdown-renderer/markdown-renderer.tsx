@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 
 export default function MarkdownRenderer({ content }: { content: string }) {
@@ -129,9 +130,9 @@ export default function MarkdownRenderer({ content }: { content: string }) {
     ),
 
     // Images
-    img: ({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-      <img
-        src={src}
+    img: ({ src, alt, width, height, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+      <Image
+        src={typeof src === 'string' ? src : ''}
         alt={alt || 'Image'}
         className='my-2 h-auto max-w-full rounded-md'
         {...props}

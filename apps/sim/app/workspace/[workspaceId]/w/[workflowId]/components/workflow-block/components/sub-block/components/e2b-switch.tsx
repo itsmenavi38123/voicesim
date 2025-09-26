@@ -23,10 +23,11 @@ export function E2BSwitch({
   previewValue,
   disabled = false,
 }: E2BSwitchProps) {
+  // Always call hooks at the top level, before any return
+  const [storeValue, setStoreValue] = useSubBlockValue<boolean>(blockId, subBlockId)
   const e2bEnabled = isTruthy(getEnv('NEXT_PUBLIC_E2B_ENABLED'))
   if (!e2bEnabled) return null
 
-  const [storeValue, setStoreValue] = useSubBlockValue<boolean>(blockId, subBlockId)
   const value = isPreview ? previewValue : propValue !== undefined ? propValue : storeValue
 
   const handleChange = (checked: boolean) => {

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { Check, Copy } from 'lucide-react'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -203,7 +204,10 @@ export default function CopilotMarkdownRenderer({ content }: CopilotMarkdownRend
         let language = 'code'
 
         if (
-          React.isValidElement<{ className?: string; children?: React.ReactNode }>(children) &&
+          React.isValidElement<{
+            className?: string
+            children?: React.ReactNode
+          }>(children) &&
           children.type === 'code'
         ) {
           const childElement = children as React.ReactElement<{
@@ -281,7 +285,10 @@ export default function CopilotMarkdownRenderer({ content }: CopilotMarkdownRend
         className,
         children,
         ...props
-      }: React.HTMLAttributes<HTMLElement> & { className?: string; inline?: boolean }) => {
+      }: React.HTMLAttributes<HTMLElement> & {
+        className?: string
+        inline?: boolean
+      }) => {
         if (inline) {
           return (
             <code
@@ -367,14 +374,19 @@ export default function CopilotMarkdownRenderer({ content }: CopilotMarkdownRend
       ),
 
       // Images
-      img: ({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-        <img
-          src={src}
-          alt={alt || 'Image'}
-          className='my-3 h-auto max-w-full rounded-md'
-          {...props}
-        />
-      ),
+      img: ({ src, alt, width, height, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+        if (!src || typeof src !== 'string') {
+          return null
+        }
+        return (
+          <Image
+            src={src}
+            alt={alt || 'Image'}
+            className='my-3 h-auto max-w-full rounded-md'
+            {...props}
+          />
+        )
+      },
     }),
     [copiedCodeBlocks]
   )

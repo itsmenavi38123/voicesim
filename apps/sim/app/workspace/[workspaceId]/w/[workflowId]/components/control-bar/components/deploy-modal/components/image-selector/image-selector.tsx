@@ -1,7 +1,8 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { Image, Loader2, Upload, X } from 'lucide-react'
+import { Image as ImageIcon, Loader2, Upload, X } from 'lucide-react'
+import { default as Image } from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { createLogger } from '@/lib/logs/console/logger'
@@ -193,7 +194,7 @@ export function ImageSelector({
         // Show uploaded image
         <div className='space-y-2'>
           <div className='relative inline-block'>
-            <img
+            <Image
               src={value}
               alt='Uploaded logo'
               className='h-20 w-20 rounded-lg border object-cover'
@@ -260,7 +261,7 @@ export function ImageSelector({
             </div>
           ) : (
             <div className='space-y-2'>
-              <Image className='mx-auto h-8 w-8 text-muted-foreground' />
+              <ImageIcon className='mx-auto h-8 w-8 text-muted-foreground' />
               <div>
                 <p className='font-medium text-sm'>
                   {isDragging ? 'Drop image here!' : placeholder}

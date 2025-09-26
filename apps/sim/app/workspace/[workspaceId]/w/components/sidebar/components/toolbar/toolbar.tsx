@@ -130,9 +130,7 @@ export function Toolbar({ userPermissions, isWorkspaceSelectorVisible = false }:
                     config={block.config}
                     disabled={!userPermissions.canEdit}
                   />
-                  <AgentsSection
-                    userPermissions={userPermissions}
-                  />
+                  <AgentsSection userPermissions={userPermissions} />
                 </div>
               )
             }

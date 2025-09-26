@@ -78,7 +78,7 @@ export const buildTimeCSPDirectives: CSPDirectives = {
     env.OLLAMA_URL || 'http://localhost:11434',
     env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3002',
     env.NEXT_PUBLIC_SOCKET_URL?.replace('http://', 'ws://').replace('https://', 'wss://') ||
-    'ws://localhost:3002',
+      'ws://localhost:3002',
     'https://*.up.railway.app',
     'wss://*.up.railway.app',
     'https://api.browser-use.com',
@@ -98,7 +98,7 @@ export const buildTimeCSPDirectives: CSPDirectives = {
     'https://*.vercel.app',
     'wss://*.vercel.app',
     'https://pro.ip-api.com',
-    'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net'
+    'https://voicecakedevelop-hrfygverfwe8g4bj.canadacentral-01.azurewebsites.net',
   ],
 
   // Google Picker and Drive integration

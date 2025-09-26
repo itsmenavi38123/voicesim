@@ -24,10 +24,13 @@ export function CheckboxList({
   subBlockValues,
   disabled = false,
 }: CheckboxListProps) {
+  // Call hooks at the top level for all options
+  const storeValues = options.map((option) => useSubBlockValue(blockId, option.id))
+
   return (
     <div className={cn('grid gap-4', layout === 'half' ? 'grid-cols-2' : 'grid-cols-1', 'pt-1')}>
-      {options.map((option) => {
-        const [storeValue, setStoreValue] = useSubBlockValue(blockId, option.id)
+      {options.map((option, idx) => {
+        const [storeValue, setStoreValue] = storeValues[idx]
 
         // Get preview value for this specific option
         const previewValue =

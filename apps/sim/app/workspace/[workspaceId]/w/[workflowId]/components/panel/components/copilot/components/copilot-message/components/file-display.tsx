@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
-import { FileText, Image } from 'lucide-react'
+import { FileText, Image as ImageIcon } from 'lucide-react'
+import Image from 'next/image'
 import type { MessageFileAttachment } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/panel/components/copilot/components/user-input/user-input'
 
 interface FileAttachmentDisplayProps {
@@ -19,7 +20,7 @@ export const FileAttachmentDisplay = memo(({ fileAttachments }: FileAttachmentDi
 
   const getFileIcon = (mediaType: string) => {
     if (mediaType.startsWith('image/')) {
-      return <Image className='h-5 w-5 text-muted-foreground' />
+      return <ImageIcon className='h-5 w-5 text-muted-foreground' />
     }
     if (mediaType.includes('pdf')) {
       return <FileText className='h-5 w-5 text-red-500' />
@@ -61,7 +62,7 @@ export const FileAttachmentDisplay = memo(({ fileAttachments }: FileAttachmentDi
         >
           {isImageFile(file.media_type) ? (
             // For images, show actual thumbnail
-            <img
+            <Image
               src={getFileUrl(file)}
               alt={file.filename}
               className='h-full w-full object-cover'

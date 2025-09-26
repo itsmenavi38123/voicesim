@@ -249,7 +249,11 @@ describe('Chat API Utils', () => {
     it('should request email auth for email-protected chats', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
 
-      const deployment = { id: 'chat-id', authType: 'email', allowedEmails: ['user@example.com', '@company.com'] }
+      const deployment = {
+        id: 'chat-id',
+        authType: 'email',
+        allowedEmails: ['user@example.com', '@company.com'],
+      }
       const mockRequest = { method: 'GET', cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
       const result = await validateChatAuth('request-id', deployment, mockRequest)
@@ -259,18 +263,28 @@ describe('Chat API Utils', () => {
 
     it('should check allowed emails for email auth', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
-      const deployment = { id: 'chat-id', authType: 'email', allowedEmails: ['user@example.com', '@company.com'] }
+      const deployment = {
+        id: 'chat-id',
+        authType: 'email',
+        allowedEmails: ['user@example.com', '@company.com'],
+      }
       const mockRequest = { method: 'POST', cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
-      const result1 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'user@example.com' })
+      const result1 = await validateChatAuth('request-id', deployment, mockRequest, {
+        email: 'user@example.com',
+      })
       expect(result1.authorized).toBe(false)
       expect(result1.error).toBe('otp_required')
 
-      const result2 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'other@company.com' })
+      const result2 = await validateChatAuth('request-id', deployment, mockRequest, {
+        email: 'other@company.com',
+      })
       expect(result2.authorized).toBe(false)
       expect(result2.error).toBe('otp_required')
 
-      const result3 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'user@unknown.com' })
+      const result3 = await validateChatAuth('request-id', deployment, mockRequest, {
+        email: 'user@unknown.com',
+      })
       expect(result3.authorized).toBe(false)
       expect(result3.error).toBe('Email not authorized')
     })
@@ -282,8 +296,24 @@ describe('Chat API Utils', () => {
         success: false,
         output: {},
         logs: [
-          { blockId: 'agent1', startedAt: '2023-01-01T00:00:00Z', endedAt: '2023-01-01T00:00:01Z', durationMs: 1000, success: true, output: { content: 'Agent 1 succeeded' }, error: undefined },
-          { blockId: 'agent2', startedAt: '2023-01-01T00:00:00Z', endedAt: '2023-01-01T00:00:01Z', durationMs: 500, success: false, output: null, error: 'Agent 2 failed' },
+          {
+            blockId: 'agent1',
+            startedAt: '2023-01-01T00:00:00Z',
+            endedAt: '2023-01-01T00:00:01Z',
+            durationMs: 1000,
+            success: true,
+            output: { content: 'Agent 1 succeeded' },
+            error: undefined,
+          },
+          {
+            blockId: 'agent2',
+            startedAt: '2023-01-01T00:00:00Z',
+            endedAt: '2023-01-01T00:00:01Z',
+            durationMs: 500,
+            success: false,
+            output: null,
+            error: 'Agent 2 failed',
+          },
         ],
         metadata: { duration: 1000 },
       }
@@ -297,13 +327,19 @@ describe('Chat API Utils', () => {
     })
 
     it('should handle ExecutionResult vs StreamingExecution types correctly', () => {
-      const executionResult = { success: true, output: { content: 'test' }, logs: [], metadata: { duration: 100 } }
+      const executionResult = {
+        success: true,
+        output: { content: 'test' },
+        logs: [],
+        metadata: { duration: 100 },
+      }
 
       const directResult = executionResult
       expect(directResult).toBe(executionResult)
 
       const streamingResult = { stream: new ReadableStream(), execution: executionResult }
-      const extractedFromStreaming = 'execution' in streamingResult ? streamingResult.execution : streamingResult
+      const extractedFromStreaming =
+        'execution' in streamingResult ? streamingResult.execution : streamingResult
       expect(extractedFromStreaming).toBe(executionResult)
     })
   })
