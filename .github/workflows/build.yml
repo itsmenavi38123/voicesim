@@ -6,43 +6,41 @@ on:
 
 jobs:
   build-and-push:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # AMD64 builds on x86 runners
-          - dockerfile: ./docker/app.Dockerfile
-            image: ghcr.io/simstudioai/simstudio
-            platform: linux/amd64
-            arch: amd64
-            runner: linux-x64-8-core
-          - dockerfile: ./docker/db.Dockerfile
-            image: ghcr.io/simstudioai/migrations
-            platform: linux/amd64
-            arch: amd64
-            runner: linux-x64-8-core
-          - dockerfile: ./docker/realtime.Dockerfile
-            image: ghcr.io/simstudioai/realtime
-            platform: linux/amd64
-            arch: amd64
-            runner: linux-x64-8-core
-          # ARM64 builds on native ARM64 runners
-          - dockerfile: ./docker/app.Dockerfile
-            image: ghcr.io/simstudioai/simstudio
-            platform: linux/arm64
-            arch: arm64
-            runner: linux-arm64-8-core
-          - dockerfile: ./docker/db.Dockerfile
-            image: ghcr.io/simstudioai/migrations
-            platform: linux/arm64
-            arch: arm64
-            runner: linux-arm64-8-core
-          - dockerfile: ./docker/realtime.Dockerfile
-            image: ghcr.io/simstudioai/realtime
-            platform: linux/arm64
-            arch: arm64
-            runner: linux-arm64-8-core
-    runs-on: ${{ matrix.runner }}
+  strategy:
+    fail-fast: false
+    matrix:
+      include:
+        - dockerfile: ./docker/app.Dockerfile
+          image: ghcr.io/simstudioai/simstudio
+          platform: linux/amd64
+          arch: amd64
+          runner: ubuntu-latest
+        - dockerfile: ./docker/db.Dockerfile
+          image: ghcr.io/simstudioai/migrations
+          platform: linux/amd64
+          arch: amd64
+          runner: ubuntu-latest
+        - dockerfile: ./docker/realtime.Dockerfile
+          image: ghcr.io/simstudioai/realtime
+          platform: linux/amd64
+          arch: amd64
+          runner: ubuntu-latest
+        - dockerfile: ./docker/app.Dockerfile
+          image: ghcr.io/simstudioai/simstudio
+          platform: linux/arm64
+          arch: arm64
+          runner: ubuntu-latest
+        - dockerfile: ./docker/db.Dockerfile
+          image: ghcr.io/simstudioai/migrations
+          platform: linux/arm64
+          arch: arm64
+          runner: ubuntu-latest
+        - dockerfile: ./docker/realtime.Dockerfile
+          image: ghcr.io/simstudioai/realtime
+          platform: linux/arm64
+          arch: arm64
+          runner: ubuntu-latest
+  runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
       packages: write
