@@ -415,9 +415,8 @@ export function calculateNextRunTime(
         const [hours, minutes] = scheduleTimeOverride
         nextRun.setHours(hours, minutes, 0, 0)
 
-        // Add intervals until we're in the future
-        while (nextRun <= new Date()) {
-          nextRun.setMinutes(nextRun.getMinutes() + minutesInterval)
+        if (nextRun <= new Date()) {
+          nextRun.setDate(nextRun.getDate() + 1)
         }
         return nextRun
       }
