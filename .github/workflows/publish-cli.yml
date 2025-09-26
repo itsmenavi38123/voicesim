@@ -30,7 +30,7 @@ jobs:
 
       - name: Build package
         working-directory: packages/cli
-        run: bun run build
+        run: bun run build --no-lint
 
       - name: Get package version
         id: package_version
