@@ -35,9 +35,9 @@ jobs:
       - name: Deploy to Staging
         if: github.ref == 'refs/heads/staging'
         working-directory: ./apps/sim
-        run: bunx trigger.dev@4.0.1 deploy -e staging
+        run: bunx trigger.dev@latest deploy -e staging
 
       - name: Deploy to Production
         if: github.ref == 'refs/heads/main'
         working-directory: ./apps/sim
-        run: bunx trigger.dev@4.0.1 deploy
+        run: bunx trigger.dev@latest deploy
