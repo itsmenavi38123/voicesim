@@ -68,7 +68,7 @@ describe('Chat API Utils', () => {
   })
 
   describe('Auth token utils', () => {
-    it.concurrent('should encrypt and validate auth tokens', async () => {
+    it('should encrypt and validate auth tokens', async () => {
       const { encryptAuthToken, validateAuthToken } = await import('@/app/api/chat/utils')
 
       const subdomainId = 'test-subdomain-id'
@@ -85,11 +85,10 @@ describe('Chat API Utils', () => {
       expect(isInvalidSubdomain).toBe(false)
     })
 
-    it.concurrent('should reject expired tokens', async () => {
+    it('should reject expired tokens', async () => {
       const { validateAuthToken } = await import('@/app/api/chat/utils')
 
       const subdomainId = 'test-subdomain-id'
-      // Create an expired token by directly constructing it with an old timestamp
       const expiredToken = Buffer.from(
         `${subdomainId}:password:${Date.now() - 25 * 60 * 60 * 1000}`
       ).toString('base64')
@@ -100,7 +99,7 @@ describe('Chat API Utils', () => {
   })
 
   describe('Cookie handling', () => {
-    it.concurrent('should set auth cookie correctly', async () => {
+    it('should set auth cookie correctly', async () => {
       const { setChatAuthCookie } = await import('@/app/api/chat/utils')
 
       const mockSet = vi.fn()
@@ -119,17 +118,17 @@ describe('Chat API Utils', () => {
         name: `chat_auth_${subdomainId}`,
         value: expect.any(String),
         httpOnly: true,
-        secure: false, // Development mode
+        secure: false,
         sameSite: 'lax',
         path: '/',
-        domain: undefined, // Development mode
+        domain: undefined,
         maxAge: 60 * 60 * 24,
       })
     })
   })
 
   describe('CORS handling', () => {
-    it.concurrent('should add CORS headers for localhost in development', async () => {
+    it('should add CORS headers for localhost in development', async () => {
       const { addCorsHeaders } = await import('@/app/api/chat/utils')
 
       const mockRequest = {
@@ -164,7 +163,7 @@ describe('Chat API Utils', () => {
       )
     })
 
-    it.concurrent('should handle OPTIONS request', async () => {
+    it('should handle OPTIONS request', async () => {
       const { OPTIONS } = await import('@/app/api/chat/utils')
 
       const mockRequest = {
@@ -198,43 +197,26 @@ describe('Chat API Utils', () => {
       })
     })
 
-    it.concurrent('should allow access to public chats', async () => {
+    it('should allow access to public chats', async () => {
       const utils = await import('@/app/api/chat/utils')
       const { validateChatAuth } = utils
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'public',
-      }
+      const deployment = { id: 'chat-id', authType: 'public' }
 
-      const mockRequest = {
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
+      const mockRequest = { cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
       const result = await validateChatAuth('request-id', deployment, mockRequest)
-
       expect(result.authorized).toBe(true)
     })
 
-    it.concurrent('should request password auth for GET requests', async () => {
+    it('should request password auth for GET requests', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'password',
-      }
+      const deployment = { id: 'chat-id', authType: 'password' }
 
-      const mockRequest = {
-        method: 'GET',
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
+      const mockRequest = { method: 'GET', cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
       const result = await validateChatAuth('request-id', deployment, mockRequest)
-
       expect(result.authorized).toBe(false)
       expect(result.error).toBe('auth_required_password')
     })
@@ -243,108 +225,52 @@ describe('Chat API Utils', () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
       const { decryptSecret } = await import('@/lib/utils')
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'password',
-        password: 'encrypted-password',
-      }
-
-      const mockRequest = {
-        method: 'POST',
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
-
-      const parsedBody = {
-        password: 'correct-password',
-      }
+      const deployment = { id: 'chat-id', authType: 'password', password: 'encrypted-password' }
+      const mockRequest = { method: 'POST', cookies: { get: vi.fn().mockReturnValue(null) } } as any
+      const parsedBody = { password: 'correct-password' }
 
       const result = await validateChatAuth('request-id', deployment, mockRequest, parsedBody)
-
       expect(decryptSecret).toHaveBeenCalledWith('encrypted-password')
       expect(result.authorized).toBe(true)
     })
 
-    it.concurrent('should reject incorrect password', async () => {
+    it('should reject incorrect password', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'password',
-        password: 'encrypted-password',
-      }
-
-      const mockRequest = {
-        method: 'POST',
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
-
-      const parsedBody = {
-        password: 'wrong-password',
-      }
+      const deployment = { id: 'chat-id', authType: 'password', password: 'encrypted-password' }
+      const mockRequest = { method: 'POST', cookies: { get: vi.fn().mockReturnValue(null) } } as any
+      const parsedBody = { password: 'wrong-password' }
 
       const result = await validateChatAuth('request-id', deployment, mockRequest, parsedBody)
-
       expect(result.authorized).toBe(false)
       expect(result.error).toBe('Invalid password')
     })
 
-    it.concurrent('should request email auth for email-protected chats', async () => {
+    it('should request email auth for email-protected chats', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'email',
-        allowedEmails: ['user@example.com', '@company.com'],
-      }
-
-      const mockRequest = {
-        method: 'GET',
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
+      const deployment = { id: 'chat-id', authType: 'email', allowedEmails: ['user@example.com', '@company.com'] }
+      const mockRequest = { method: 'GET', cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
       const result = await validateChatAuth('request-id', deployment, mockRequest)
-
       expect(result.authorized).toBe(false)
       expect(result.error).toBe('auth_required_email')
     })
 
-    it.concurrent('should check allowed emails for email auth', async () => {
+    it('should check allowed emails for email auth', async () => {
       const { validateChatAuth } = await import('@/app/api/chat/utils')
+      const deployment = { id: 'chat-id', authType: 'email', allowedEmails: ['user@example.com', '@company.com'] }
+      const mockRequest = { method: 'POST', cookies: { get: vi.fn().mockReturnValue(null) } } as any
 
-      const deployment = {
-        id: 'chat-id',
-        authType: 'email',
-        allowedEmails: ['user@example.com', '@company.com'],
-      }
-
-      const mockRequest = {
-        method: 'POST',
-        cookies: {
-          get: vi.fn().mockReturnValue(null),
-        },
-      } as any
-
-      const result1 = await validateChatAuth('request-id', deployment, mockRequest, {
-        email: 'user@example.com',
-      })
+      const result1 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'user@example.com' })
       expect(result1.authorized).toBe(false)
       expect(result1.error).toBe('otp_required')
 
-      const result2 = await validateChatAuth('request-id', deployment, mockRequest, {
-        email: 'other@company.com',
-      })
+      const result2 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'other@company.com' })
       expect(result2.authorized).toBe(false)
       expect(result2.error).toBe('otp_required')
 
-      const result3 = await validateChatAuth('request-id', deployment, mockRequest, {
-        email: 'user@unknown.com',
-      })
+      const result3 = await validateChatAuth('request-id', deployment, mockRequest, { email: 'user@unknown.com' })
       expect(result3.authorized).toBe(false)
       expect(result3.error).toBe('Email not authorized')
     })
@@ -352,73 +278,32 @@ describe('Chat API Utils', () => {
 
   describe('Execution Result Processing', () => {
     it('should process logs regardless of overall success status', () => {
-      // Test that logs are processed even when overall execution fails
-      // This is key for partial success scenarios
       const executionResult = {
-        success: false, // Overall execution failed
+        success: false,
         output: {},
         logs: [
-          {
-            blockId: 'agent1',
-            startedAt: '2023-01-01T00:00:00Z',
-            endedAt: '2023-01-01T00:00:01Z',
-            durationMs: 1000,
-            success: true,
-            output: { content: 'Agent 1 succeeded' },
-            error: undefined,
-          },
-          {
-            blockId: 'agent2',
-            startedAt: '2023-01-01T00:00:00Z',
-            endedAt: '2023-01-01T00:00:01Z',
-            durationMs: 500,
-            success: false,
-            output: null,
-            error: 'Agent 2 failed',
-          },
+          { blockId: 'agent1', startedAt: '2023-01-01T00:00:00Z', endedAt: '2023-01-01T00:00:01Z', durationMs: 1000, success: true, output: { content: 'Agent 1 succeeded' }, error: undefined },
+          { blockId: 'agent2', startedAt: '2023-01-01T00:00:00Z', endedAt: '2023-01-01T00:00:01Z', durationMs: 500, success: false, output: null, error: 'Agent 2 failed' },
         ],
         metadata: { duration: 1000 },
       }
 
-      // Test the key logic: logs should be processed regardless of overall success
       expect(executionResult.success).toBe(false)
-      expect(executionResult.logs).toBeDefined()
       expect(executionResult.logs).toHaveLength(2)
-
-      // First log should be successful
       expect(executionResult.logs[0].success).toBe(true)
       expect(executionResult.logs[0].output?.content).toBe('Agent 1 succeeded')
-
-      // Second log should be failed
       expect(executionResult.logs[1].success).toBe(false)
       expect(executionResult.logs[1].error).toBe('Agent 2 failed')
     })
 
     it('should handle ExecutionResult vs StreamingExecution types correctly', () => {
-      const executionResult = {
-        success: true,
-        output: { content: 'test' },
-        logs: [],
-        metadata: { duration: 100 },
-      }
+      const executionResult = { success: true, output: { content: 'test' }, logs: [], metadata: { duration: 100 } }
 
-      // Test direct ExecutionResult
       const directResult = executionResult
-      const extractedDirect = directResult
-      expect(extractedDirect).toBe(executionResult)
+      expect(directResult).toBe(executionResult)
 
-      // Test StreamingExecution with embedded ExecutionResult
-      const streamingResult = {
-        stream: new ReadableStream(),
-        execution: executionResult,
-      }
-
-      // Simulate the type extraction logic from executeWorkflowForChat
-      const extractedFromStreaming =
-        streamingResult && typeof streamingResult === 'object' && 'execution' in streamingResult
-          ? streamingResult.execution
-          : streamingResult
-
+      const streamingResult = { stream: new ReadableStream(), execution: executionResult }
+      const extractedFromStreaming = 'execution' in streamingResult ? streamingResult.execution : streamingResult
       expect(extractedFromStreaming).toBe(executionResult)
     })
   })

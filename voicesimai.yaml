@@ -4,7 +4,7 @@ properties:
     activeRevisionsMode: Single
     ingress:
       external: true
-      targetPort: 3000   # Publicly expose simstudio
+      targetPort: 3000 # Publicly expose simstudio
     registries:
       - server: ghcr.io
         username: itsmenavi38123
@@ -20,7 +20,7 @@ properties:
           memory: 1Gi
         env:
           - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
           - name: BETTER_AUTH_URL
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           - name: NEXT_PUBLIC_APP_URL
@@ -62,7 +62,7 @@ properties:
           memory: 1Gi
         env:
           - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
           - name: BETTER_AUTH_URL
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           - name: NEXT_PUBLIC_APP_URL
@@ -81,24 +81,11 @@ properties:
         image: ghcr.io/simstudioai/migrations:latest
         resources:
           cpu: 0.5
-          memory: 1Gi   # updated from 0.5Gi → 1Gi
-        env:
-          - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
-        command: ["bun", "run", "db:migrate"]
-
-      - name: db
-        image: pgvector/pgvector:pg17
-        resources:
-          cpu: 0.5
           memory: 1Gi
         env:
-          - name: POSTGRES_USER
-            value: "voicecakedevelop"
-          - name: POSTGRES_PASSWORD
-            value: "Test%401234"
-          - name: POSTGRES_DB
-            value: "postgres"
+          - name: DATABASE_URL
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
+        command: ["bun", "run", "db:migrate"]
 
     scale:
       minReplicas: 1

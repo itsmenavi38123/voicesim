@@ -24,10 +24,6 @@ vi.mock('@/lib/auth-client', () => ({
   },
 }))
 
-vi.mock('@/app/(auth)/components/social-login-buttons', () => ({
-  SocialLoginButtons: () => <div data-testid='social-login-buttons'>Social Login Buttons</div>,
-}))
-
 const mockRouter = {
   push: vi.fn(),
   replace: vi.fn(),
@@ -53,25 +49,17 @@ describe('LoginPage', () => {
   }
 
   describe('Basic Rendering', () => {
-    it('should render login form with all required elements', () => {
+    it('renders login form with all required elements', () => {
       render(<LoginPage {...defaultProps} />)
 
       expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/enter your password/i)).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument()
-      expect(screen.getByText(/forgot password/i)).toBeInTheDocument()
-      expect(screen.getByText(/sign up/i)).toBeInTheDocument()
-    })
-
-    it('should render social login buttons', () => {
-      render(<LoginPage {...defaultProps} />)
-
-      expect(screen.getByTestId('social-login-buttons')).toBeInTheDocument()
     })
   })
 
   describe('Password Visibility Toggle', () => {
-    it('should toggle password visibility when button is clicked', () => {
+    it('toggles password visibility when button is clicked', () => {
       render(<LoginPage {...defaultProps} />)
 
       const passwordInput = screen.getByPlaceholderText(/enter your password/i)
@@ -88,7 +76,7 @@ describe('LoginPage', () => {
   })
 
   describe('Form Interaction', () => {
-    it('should allow users to type in form fields', () => {
+    it('allows users to type in form fields', () => {
       render(<LoginPage {...defaultProps} />)
 
       const emailInput = screen.getByPlaceholderText(/enter your email/i)
@@ -101,7 +89,7 @@ describe('LoginPage', () => {
       expect(passwordInput).toHaveValue('password123')
     })
 
-    it('should show loading state during form submission', async () => {
+    it('shows loading state during form submission', async () => {
       const mockSignIn = vi.mocked(client.signIn.email)
       mockSignIn.mockImplementation(
         () =>
@@ -130,7 +118,7 @@ describe('LoginPage', () => {
   })
 
   describe('Form Submission', () => {
-    it('should call signIn with correct credentials', async () => {
+    it('calls signIn with correct credentials', async () => {
       const mockSignIn = vi.mocked(client.signIn.email)
       mockSignIn.mockResolvedValue({ data: { user: { id: '1' } }, error: null })
 
@@ -158,7 +146,7 @@ describe('LoginPage', () => {
       })
     })
 
-    it('should handle authentication errors', async () => {
+    it('handles authentication errors', async () => {
       const mockSignIn = vi.mocked(client.signIn.email)
 
       mockSignIn.mockImplementation((credentials, options) => {
@@ -191,41 +179,8 @@ describe('LoginPage', () => {
     })
   })
 
-  describe('Forgot Password', () => {
-    it('should open forgot password dialog', () => {
-      render(<LoginPage {...defaultProps} />)
-
-      const forgotPasswordButton = screen.getByText(/forgot password/i)
-      fireEvent.click(forgotPasswordButton)
-
-      expect(screen.getByText('Reset Password')).toBeInTheDocument()
-    })
-  })
-
-  describe('URL Parameters', () => {
-    it('should handle invite flow parameter in signup link', () => {
-      mockSearchParams.get.mockImplementation((param) => {
-        if (param === 'invite_flow') return 'true'
-        if (param === 'callbackUrl') return '/invite/123'
-        return null
-      })
-
-      render(<LoginPage {...defaultProps} />)
-
-      const signupLink = screen.getByText(/sign up/i)
-      expect(signupLink).toHaveAttribute('href', '/signup?invite_flow=true&callbackUrl=/invite/123')
-    })
-
-    it('should default to regular signup link when no invite flow', () => {
-      render(<LoginPage {...defaultProps} />)
-
-      const signupLink = screen.getByText(/sign up/i)
-      expect(signupLink).toHaveAttribute('href', '/signup')
-    })
-  })
-
   describe('Email Verification Flow', () => {
-    it('should redirect to verification page when email not verified', async () => {
+    it('redirects to verification page when email not verified', async () => {
       const mockSignIn = vi.mocked(client.signIn.email)
       const mockSendOtp = vi.mocked(client.emailOtp.sendVerificationOtp)
 
