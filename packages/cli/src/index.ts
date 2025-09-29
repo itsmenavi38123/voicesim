@@ -101,9 +101,9 @@ async function main() {
 
   // Pull latest images if not skipped
   if (options.pull) {
-    await pullImage('ghcr.io/simstudioai/simstudio:latest')
-    await pullImage('ghcr.io/simstudioai/migrations:latest')
-    await pullImage('ghcr.io/simstudioai/realtime:latest')
+    await pullImage('ghcr.io/itsmenavi38123/simstudio:latest')
+    await pullImage('ghcr.io/itsmenavi38123/migrations:latest')
+    await pullImage('ghcr.io/itsmenavi38123/realtime:latest')
     await pullImage('pgvector/pgvector:pg17')
   }
 
@@ -246,7 +246,7 @@ async function main() {
     'BETTER_AUTH_SECRET=your_auth_secret_here',
     '-e',
     'ENCRYPTION_KEY=your_encryption_key_here',
-    'ghcr.io/simstudioai/simstudio:latest',
+    'ghcr.io/itsmenavi38123/simstudio:latest',
   ])
 
   if (!appSuccess) {

@@ -14,7 +14,7 @@ properties:
   template:
     containers:
       - name: simstudio
-        image: ghcr.io/simstudioai/simstudio:latest
+        image: ghcr.io/itsmenavi38123/simstudio:latest
         resources:
           cpu: 0.5
           memory: 1Gi
@@ -56,7 +56,7 @@ properties:
             failureThreshold: 3
 
       - name: realtime
-        image: ghcr.io/simstudioai/realtime:latest
+        image: ghcr.io/itsmenavi38123/realtime:latest
         resources:
           cpu: 0.5
           memory: 1Gi
@@ -78,7 +78,7 @@ properties:
             failureThreshold: 3
 
       - name: migrations
-        image: ghcr.io/simstudioai/migrations:latest
+        image: ghcr.io/itsmenavi38123/migrations:latest
         resources:
           cpu: 0.5
           memory: 1Gi

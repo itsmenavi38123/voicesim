@@ -12,28 +12,28 @@ jobs:
         include:
           # AMD64 builds
           - dockerfile: ./docker/app.Dockerfile
-            image: ghcr.io/simstudioai/simstudio
+            image: ghcr.io/itsmenavi38123/simstudio
             platform: linux/amd64
             arch: amd64
           - dockerfile: ./docker/db.Dockerfile
-            image: ghcr.io/simstudioai/migrations
+            image: ghcr.io/itsmenavi38123/migrations
             platform: linux/amd64
             arch: amd64
           - dockerfile: ./docker/realtime.Dockerfile
-            image: ghcr.io/simstudioai/realtime
+            image: ghcr.io/itsmenavi38123/realtime
             platform: linux/amd64
             arch: amd64
           # ARM64 builds (via QEMU on x86 runners)
           - dockerfile: ./docker/app.Dockerfile
-            image: ghcr.io/simstudioai/simstudio
+            image: ghcr.io/itsmenavi38123/simstudio
             platform: linux/arm64
             arch: arm64
           - dockerfile: ./docker/db.Dockerfile
-            image: ghcr.io/simstudioai/migrations
+            image: ghcr.io/itsmenavi38123/migrations
             platform: linux/arm64
             arch: arm64
           - dockerfile: ./docker/realtime.Dockerfile
-            image: ghcr.io/simstudioai/realtime
+            image: ghcr.io/itsmenavi38123/realtime
             platform: linux/arm64
             arch: arm64
     runs-on: ubuntu-latest
@@ -87,9 +87,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ghcr.io/simstudioai/simstudio
-          - image: ghcr.io/simstudioai/migrations
-          - image: ghcr.io/simstudioai/realtime
+          - image: ghcr.io/itsmenavi38123/simstudio
+          - image: ghcr.io/itsmenavi38123/migrations
+          - image: ghcr.io/itsmenavi38123/realtime
     permissions:
       contents: read
       packages: write
