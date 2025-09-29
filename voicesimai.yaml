@@ -20,7 +20,7 @@ properties:
           memory: 1Gi
         env:
           - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
           - name: BETTER_AUTH_URL
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           - name: NEXT_PUBLIC_APP_URL
@@ -61,7 +61,7 @@ properties:
           memory: 1Gi
         env:
           - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
           - name: BETTER_AUTH_URL
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           - name: NEXT_PUBLIC_APP_URL
@@ -82,8 +82,8 @@ properties:
           memory: 1Gi
         env:
           - name: DATABASE_URL
-            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres"
-        command: ["bun", "run", "db:migrate"]
+            value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
+        command: ["bunx", "drizzle-kit", "migrate"]
 
     scale:
       minReplicas: 1
