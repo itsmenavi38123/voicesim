@@ -4,6 +4,8 @@ import { env } from '@/lib/env'
 import { isDev } from '@/lib/environment'
 import * as schema from '@/db/schema'
 
+console.log('process.env', env)
+
 // In production, use the Vercel-generated POSTGRES_URL
 // In development, use the direct DATABASE_URL
 const connectionString = env.POSTGRES_URL ?? env.DATABASE_URL
