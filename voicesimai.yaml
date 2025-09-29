@@ -45,6 +45,7 @@ properties:
             value: "http://realtime:3002"
           - name: NEXT_PUBLIC_SOCKET_URL
             value: "http://realtime:3002"
+        command: ["bun", "run", "start"]
         probes:
           - httpGet:
               path: "/"
@@ -66,6 +67,7 @@ properties:
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           - name: NEXT_PUBLIC_APP_URL
             value: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
+        command: ["bun", "run", "start"]
         probes:
           - httpGet:
               path: "/health"
