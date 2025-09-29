@@ -32,14 +32,14 @@ jobs:
       - name: Run tests with coverage
         env:
           NODE_OPTIONS: "--no-warnings"
-          NEXT_PUBLIC_APP_URL: "https://www.sim.ai"
+          NEXT_PUBLIC_APP_URL: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           ENCRYPTION_KEY: "7cf672e460e430c1fba707575c2b0e2ad5a99dddf9b7b7e3b5646e630861db1c"
         run: bun run test
 
       - name: Build application
         env:
           NODE_OPTIONS: "--no-warnings"
-          NEXT_PUBLIC_APP_URL: "https://www.sim.ai"
+          NEXT_PUBLIC_APP_URL: "https://voicesimai.livelysand-bea0689a.canadacentral.azurecontainerapps.io"
           STRIPE_SECRET_KEY: "dummy_key_for_ci_only"
           STRIPE_WEBHOOK_SECRET: "dummy_secret_for_ci_only"
           RESEND_API_KEY: "dummy_key_for_ci_only"
