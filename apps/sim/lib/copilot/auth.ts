@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth'
 import { generateRequestId } from '@/lib/utils'
 import { db } from '@/db'
 import { apiKey as apiKeyTable } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 export type { NotificationStatus } from '@/lib/copilot/types'
 
@@ -29,7 +30,7 @@ export function createInternalServerErrorResponse(message: string): NextResponse
 }
 
 export function createRequestId(): string {
-  return crypto.randomUUID()
+  return generateUUID()
 }
 
 export function createShortRequestId(): string {

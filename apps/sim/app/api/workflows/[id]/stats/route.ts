@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { createLogger } from '@/lib/logs/console/logger'
 import { db } from '@/db'
 import { userStats, workflow } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WorkflowStatsAPI')
 
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       if (userStatsRecords.length === 0) {
         // Create new record if none exists
         await db.insert(userStats).values({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           userId: workflowRecord.userId,
           totalManualExecutions: runs,
           totalApiCalls: 0,

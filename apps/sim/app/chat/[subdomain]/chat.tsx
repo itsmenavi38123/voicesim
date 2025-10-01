@@ -17,6 +17,7 @@ import {
   VoiceInterface,
 } from '@/app/chat/components'
 import { useAudioStreaming, useChatStreaming } from '@/app/chat/hooks'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('ChatClient')
 
@@ -277,7 +278,7 @@ export default function ChatClient({ subdomain }: { subdomain: string }) {
     setUserHasScrolled(false)
 
     const userMessage: ChatMessage = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       content: messageToSend,
       type: 'user',
       timestamp: new Date(),
@@ -371,7 +372,7 @@ export default function ChatClient({ subdomain }: { subdomain: string }) {
       logger.error('Error sending message:', error)
       setIsLoading(false)
       const errorMessage: ChatMessage = {
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         content: 'Sorry, there was an error processing your message. Please try again.',
         type: 'assistant',
         timestamp: new Date(),

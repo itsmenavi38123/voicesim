@@ -4,6 +4,7 @@ import { createLogger } from '@/lib/logs/console/logger'
 import { generateRequestId } from '@/lib/utils'
 import { db } from '@/db'
 import { memory } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('MemoryAPI')
 
@@ -250,7 +251,7 @@ export async function POST(request: NextRequest) {
     } else {
       // Insert the new memory
       const newMemory = {
-        id: `mem_${crypto.randomUUID().replace(/-/g, '')}`,
+        id: `mem_${generateUUID().replace(/-/g, '')}`,
         workflowId,
         key,
         type,

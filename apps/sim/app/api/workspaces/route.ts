@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth'
 import { createLogger } from '@/lib/logs/console/logger'
 import { db } from '@/db'
 import { permissions, workflow, workflowBlocks, workspace } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('Workspaces')
 
@@ -83,8 +84,8 @@ async function createDefaultWorkspace(userId: string, userName?: string | null) 
 
 // Helper function to create a workspace
 async function createWorkspace(userId: string, name: string) {
-  const workspaceId = crypto.randomUUID()
-  const workflowId = crypto.randomUUID()
+  const workspaceId = generateUUID()
+  const workflowId = generateUUID()
   const now = new Date()
 
   // Create the workspace and initial workflow in a transaction
@@ -101,7 +102,7 @@ async function createWorkspace(userId: string, name: string) {
 
       // Create admin permissions for the workspace owner
       await tx.insert(permissions).values({
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         entityType: 'workspace' as const,
         entityId: workspaceId,
         userId: userId,
@@ -111,7 +112,7 @@ async function createWorkspace(userId: string, name: string) {
       })
 
       // Create initial workflow for the workspace with start block
-      const starterId = crypto.randomUUID()
+      const starterId = generateUUID()
 
       // Create the workflow
       await tx.insert(workflow).values({

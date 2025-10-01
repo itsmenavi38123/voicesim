@@ -13,6 +13,7 @@ import { isBillingEnabled } from '@/lib/environment'
 import { createLogger } from '@/lib/logs/console/logger'
 import { db } from '@/db'
 import { member, organization, settings, user, userStats } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('UsageManagement')
 
@@ -23,7 +24,7 @@ const logger = createLogger('UsageManagement')
 export async function handleNewUser(userId: string): Promise<void> {
   try {
     await db.insert(userStats).values({
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       userId: userId,
       currentUsageLimit: getFreeTierLimit().toString(),
       usageLimitUpdatedAt: new Date(),
@@ -196,7 +197,7 @@ export async function initializeUserUsageLimit(userId: string): Promise<void> {
 
   // Create initial usage stats
   await db.insert(userStats).values({
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     userId,
     // Team/enterprise: null (use org limit), Free/Pro: individual limit
     currentUsageLimit: isTeamOrEnterprise ? null : getFreeTierLimit().toString(),

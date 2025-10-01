@@ -13,6 +13,7 @@ import { db } from '@/db'
 import { document, embedding, knowledgeBaseTagDefinitions } from '@/db/schema'
 import { DocumentProcessingQueue } from './queue'
 import type { DocumentSortField, SortOrder } from './types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('DocumentService')
 
@@ -478,7 +479,7 @@ export async function processDocumentAsync(
         logger.info(`[${documentId}] Creating embedding records with tags`)
 
         const embeddingRecords = processed.chunks.map((chunk, chunkIndex) => ({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           knowledgeBaseId,
           documentId,
           chunkIndex,

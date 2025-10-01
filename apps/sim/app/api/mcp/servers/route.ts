@@ -8,6 +8,7 @@ import { validateMcpServerUrl } from '@/lib/mcp/url-validator'
 import { createMcpErrorResponse, createMcpSuccessResponse } from '@/lib/mcp/utils'
 import { db } from '@/db'
 import { mcpServers } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('McpServersAPI')
 
@@ -82,7 +83,7 @@ export const POST = withMcpAuth('write')(
         body.url = urlValidation.normalizedUrl
       }
 
-      const serverId = body.id || crypto.randomUUID()
+      const serverId = body.id || generateUUID()
 
       await db
         .insert(mcpServers)

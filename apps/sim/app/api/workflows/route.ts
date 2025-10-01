@@ -7,6 +7,7 @@ import { generateRequestId } from '@/lib/utils'
 import { db } from '@/db'
 import { workflow, workflowBlocks, workspace } from '@/db/schema'
 import { verifyWorkspaceMembership } from './utils'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WorkflowAPI')
 
@@ -94,8 +95,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { name, description, color, workspaceId, folderId } = CreateWorkflowSchema.parse(body)
 
-    const workflowId = crypto.randomUUID()
-    const starterId = crypto.randomUUID()
+    const workflowId = generateUUID()
+    const starterId = generateUUID()
     const now = new Date()
 
     logger.info(`[${requestId}] Creating workflow ${workflowId} for user ${session.user.id}`)

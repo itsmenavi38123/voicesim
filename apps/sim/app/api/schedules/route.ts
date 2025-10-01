@@ -15,6 +15,7 @@ import {
 import { generateRequestId } from '@/lib/utils'
 import { db } from '@/db'
 import { workflow, workflowSchedule } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('ScheduledAPI')
 
@@ -330,7 +331,7 @@ export async function POST(req: NextRequest) {
     }
 
     const values = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       workflowId,
       blockId,
       cronExpression,

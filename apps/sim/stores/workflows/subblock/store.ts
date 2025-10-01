@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware'
 import type { SubBlockConfig } from '@/blocks/types'
 import { useWorkflowRegistry } from '@/stores/workflows/registry/store'
 import type { SubBlockStore } from '@/stores/workflows/subblock/types'
+import { generateUUID } from '@/lib/uuid'
 
 /**
  * SubBlockState stores values for all subblocks in workflows
@@ -39,14 +40,14 @@ export const useSubBlockStore = create<SubBlockStore>()(
             if (!row || typeof row !== 'object') {
               console.warn('Fixing malformed table row:', row)
               return {
-                id: crypto.randomUUID(),
+                id: generateUUID(),
                 cells: { Key: '', Value: '' },
               }
             }
 
             // Ensure row has an id
             if (!row.id) {
-              row.id = crypto.randomUUID()
+              row.id = generateUUID()
             }
 
             // Ensure row has cells object

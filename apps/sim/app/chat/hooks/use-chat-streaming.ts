@@ -5,6 +5,7 @@ import { createLogger } from '@/lib/logs/console/logger'
 import type { ChatMessage } from '@/app/chat/components/message/message'
 // No longer need complex output extraction - backend handles this
 import type { ExecutionResult } from '@/executor/types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('UseChatStreaming')
 
@@ -100,7 +101,7 @@ export function useChatStreaming() {
 
     // Track which blocks have streamed content (like chat panel)
     const messageIdMap = new Map<string, string>()
-    const messageId = crypto.randomUUID()
+    const messageId = generateUUID()
     setMessages((prev) => [
       ...prev,
       {

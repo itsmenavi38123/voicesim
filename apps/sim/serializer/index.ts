@@ -5,6 +5,7 @@ import type { SubBlockConfig } from '@/blocks/types'
 import type { SerializedBlock, SerializedWorkflow } from '@/serializer/types'
 import type { BlockState, Loop, Parallel } from '@/stores/workflows/workflow/types'
 import { getTool } from '@/tools/utils'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('Serializer')
 
@@ -493,7 +494,7 @@ export class Serializer {
     // Deserialize connections
     workflow.connections.forEach((connection) => {
       edges.push({
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         source: connection.source,
         target: connection.target,
         sourceHandle: connection.sourceHandle,

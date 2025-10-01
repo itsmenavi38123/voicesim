@@ -17,6 +17,7 @@ import type { TriggerConfig } from '@/triggers/types'
 import { CredentialSelector } from '../../credential-selector/credential-selector'
 import { TriggerConfigSection } from './trigger-config-section'
 import { TriggerInstructions } from './trigger-instructions'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('TriggerModal')
 
@@ -248,7 +249,7 @@ export function TriggerModal({
     // If no path exists and we haven't generated one yet, generate one
     if (!finalPath && !generatedPath) {
       // Use UUID format consistent with other webhooks
-      const newPath = crypto.randomUUID()
+      const newPath = generateUUID()
       setGeneratedPath(newPath)
       finalPath = newPath
     } else if (generatedPath && !triggerPath) {

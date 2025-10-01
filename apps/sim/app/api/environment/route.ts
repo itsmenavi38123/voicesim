@@ -7,6 +7,7 @@ import { decryptSecret, encryptSecret, generateRequestId } from '@/lib/utils'
 import { db } from '@/db'
 import { environment } from '@/db/schema'
 import type { EnvironmentVariable } from '@/stores/settings/environment/types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('EnvironmentAPI')
 
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
       await db
         .insert(environment)
         .values({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           userId: session.user.id,
           variables: encryptedVariables,
           updatedAt: new Date(),

@@ -29,6 +29,7 @@ import {
   type ProviderConfig,
   WEBHOOK_PROVIDERS,
 } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/workflow-block/components/sub-block/components/webhook/webhook'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WebhookModal')
 
@@ -146,7 +147,7 @@ export function WebhookModal({
       !isLoadingToken &&
       requireAuth
     ) {
-      const randomToken = crypto.randomUUID()
+      const randomToken = generateUUID()
       setGeneralToken(randomToken)
       setOriginalValues((prev) => ({ ...prev, generalToken: randomToken }))
     }
@@ -397,7 +398,7 @@ export function WebhookModal({
   ])
 
   const formattedPath = useMemo(() => {
-    return webhookPath && webhookPath.trim() !== '' ? webhookPath : crypto.randomUUID()
+    return webhookPath && webhookPath.trim() !== '' ? webhookPath : generateUUID()
   }, [webhookPath])
 
   // Construct the full webhook URL

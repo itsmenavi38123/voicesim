@@ -12,6 +12,7 @@ import { useWorkflowRegistry } from '@/stores/workflows/registry/store'
 import { useSubBlockStore } from '@/stores/workflows/subblock/store'
 import { useWorkflowStore } from '@/stores/workflows/workflow/store'
 import type { Position } from '@/stores/workflows/workflow/types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('CollaborativeWorkflow')
 
@@ -484,7 +485,7 @@ export function useCollaborativeWorkflow() {
         return
       }
 
-      const operationId = crypto.randomUUID()
+      const operationId = generateUUID()
 
       addToQueue({
         id: operationId,
@@ -595,7 +596,7 @@ export function useCollaborativeWorkflow() {
         }
 
         // Generate operation ID for queue tracking
-        const operationId = crypto.randomUUID()
+        const operationId = generateUUID()
 
         // Add to queue for retry mechanism
         addToQueue({
@@ -664,7 +665,7 @@ export function useCollaborativeWorkflow() {
       if (isApplyingRemoteChange.current) return
 
       // Generate operation ID
-      const operationId = crypto.randomUUID()
+      const operationId = generateUUID()
 
       // Add to queue
       addToQueue({
@@ -846,7 +847,7 @@ export function useCollaborativeWorkflow() {
       }
 
       // Generate operation ID for queue tracking
-      const operationId = crypto.randomUUID()
+      const operationId = generateUUID()
 
       // Add to queue for retry mechanism
       addToQueue({
@@ -915,7 +916,7 @@ export function useCollaborativeWorkflow() {
       subBlockStore.setValue(blockId, subblockId, value)
 
       // Use the operation queue but with immediate processing (no debouncing)
-      const operationId = crypto.randomUUID()
+      const operationId = generateUUID()
 
       addToQueue({
         id: operationId,
@@ -954,7 +955,7 @@ export function useCollaborativeWorkflow() {
       if (!sourceBlock) return
 
       // Generate new ID and calculate position
-      const newId = crypto.randomUUID()
+      const newId = generateUUID()
       const offsetPosition = {
         x: sourceBlock.position.x + 250,
         y: sourceBlock.position.y + 20,
@@ -1235,7 +1236,7 @@ export function useCollaborativeWorkflow() {
 
   const collaborativeAddVariable = useCallback(
     (variableData: { name: string; type: any; value: any; workflowId: string }) => {
-      const id = crypto.randomUUID()
+      const id = generateUUID()
       variablesStore.addVariable(variableData, id)
       const processedVariable = useVariablesStore.getState().variables[id]
 
@@ -1267,7 +1268,7 @@ export function useCollaborativeWorkflow() {
 
   const collaborativeDuplicateVariable = useCallback(
     (variableId: string) => {
-      const newId = crypto.randomUUID()
+      const newId = generateUUID()
       const sourceVariable = useVariablesStore.getState().variables[variableId]
       if (!sourceVariable) return null
 

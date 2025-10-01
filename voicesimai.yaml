@@ -83,6 +83,7 @@ properties:
         env:
           - name: DATABASE_URL
             value: "postgresql://voicecakedevelop:Test%401234@voiecakeprelive.postgres.database.azure.com:5432/postgres?sslmode=require"
+        command: ["bun", "run", "db:migrate"]
 
     scale:
       minReplicas: 1

@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth'
 import { hasAdminPermission } from '@/lib/permissions/utils'
 import { db } from '@/db'
 import { permissions, type permissionTypeEnum, user } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 type PermissionType = (typeof permissionTypeEnum.enumValues)[number]
 
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
 
     // Create single permission for the new member
     await db.insert(permissions).values({
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       userId: targetUser.id,
       entityType: 'workspace' as const,
       entityId: workspaceId,

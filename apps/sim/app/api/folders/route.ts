@@ -5,6 +5,7 @@ import { createLogger } from '@/lib/logs/console/logger'
 import { getUserEntityPermissions } from '@/lib/permissions/utils'
 import { db } from '@/db'
 import { workflowFolder } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('FoldersAPI')
 
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate a new ID
-    const id = crypto.randomUUID()
+    const id = generateUUID()
 
     // Use transaction to ensure sortOrder consistency
     const newFolder = await db.transaction(async (tx) => {

@@ -9,6 +9,7 @@ import { db } from '@/db'
 import { workflow, workflowBlocks, workflowEdges, workflowSubflows } from '@/db/schema'
 import type { Variable } from '@/stores/panel/variables/types'
 import type { LoopConfig, ParallelConfig } from '@/stores/workflows/workflow/types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WorkflowDuplicateAPI')
 
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     )
 
     // Generate new workflow ID
-    const newWorkflowId = crypto.randomUUID()
+    const newWorkflowId = generateUUID()
     const now = new Date()
 
     // Duplicate workflow and all related data in a transaction
@@ -103,7 +104,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           const sourceVars = (source.variables as Record<string, Variable>) || {}
           const remapped: Record<string, Variable> = {}
           for (const [, variable] of Object.entries(sourceVars) as [string, Variable][]) {
-            const newVarId = crypto.randomUUID()
+            const newVarId = generateUUID()
             remapped[newVarId] = {
               ...variable,
               id: newVarId,
@@ -128,7 +129,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       if (sourceBlocks.length > 0) {
         // First pass: Create all block ID mappings
         sourceBlocks.forEach((block) => {
-          const newBlockId = crypto.randomUUID()
+          const newBlockId = generateUUID()
           blockIdMapping.set(block.id, newBlockId)
         })
 
@@ -185,7 +186,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       if (sourceEdges.length > 0) {
         const newEdges = sourceEdges.map((edge) => ({
           ...edge,
-          id: crypto.randomUUID(), // Generate new edge ID
+          id: generateUUID(), // Generate new edge ID
           workflowId: newWorkflowId,
           sourceBlockId: blockIdMapping.get(edge.sourceBlockId) || edge.sourceBlockId,
           targetBlockId: blockIdMapping.get(edge.targetBlockId) || edge.targetBlockId,

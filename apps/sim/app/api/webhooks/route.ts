@@ -9,6 +9,7 @@ import { generateRequestId } from '@/lib/utils'
 import { getOAuthToken } from '@/app/api/auth/oauth/utils'
 import { db } from '@/db'
 import { webhook, workflow } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WebhooksAPI')
 
@@ -157,7 +158,7 @@ export async function POST(request: NextRequest) {
 
         // If still no path, generate a new dummy path (first-time save)
         if (!finalPath || finalPath.trim() === '') {
-          finalPath = `${provider}-${crypto.randomUUID()}`
+          finalPath = `${provider}-${generateUUID()}`
           logger.info(`[${requestId}] Generated dummy path for ${provider} trigger: ${finalPath}`)
         }
       } else {

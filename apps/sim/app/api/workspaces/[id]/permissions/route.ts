@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import { and, eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
@@ -6,6 +5,7 @@ import { createLogger } from '@/lib/logs/console/logger'
 import { getUsersWithPermissions, hasWorkspaceAdminAccess } from '@/lib/permissions/utils'
 import { db } from '@/db'
 import { permissions, type permissionTypeEnum } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WorkspacesPermissionsAPI')
 
@@ -115,7 +115,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
           )
 
         await tx.insert(permissions).values({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           userId: update.userId,
           entityType: 'workspace' as const,
           entityId: workspaceId,

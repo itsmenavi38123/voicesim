@@ -9,7 +9,7 @@ COPY package.json bun.lock turbo.json ./
 COPY apps/sim/package.json ./apps/sim/db/
 
 # Install only necessary dependencies for migrations
-RUN bun install --omit dev --ignore-scripts drizzle-kit drizzle-orm postgres zod
+RUN bun install --omit dev --ignore-scripts drizzle-kit drizzle-orm postgres zod dotenv
 
 # ========================================
 # Runner Stage: Production Environment

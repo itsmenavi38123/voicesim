@@ -33,6 +33,7 @@ export async function middleware(request: NextRequest) {
       env.NEXT_PUBLIC_APP_URL,
       'http://localhost:3001',
       'http://localhost:3000',
+      'http://130.107.72.0:3000',
     ].filter(Boolean)
     const finalOrigin = allowedOrigins.includes(origin ?? '') ? origin! : (allowedOrigins[0] ?? '*')
     response.headers.set('Access-Control-Allow-Origin', finalOrigin)

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { checkTagTrigger, TagDropdown } from '@/components/ui/tag-dropdown'
 import { cn } from '@/lib/utils'
 import { useSubBlockValue } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/workflow-block/components/sub-block/hooks/use-sub-block-value'
+import { generateUUID } from '@/lib/uuid'
 
 interface TableProps {
   blockId: string
@@ -46,7 +47,7 @@ export function Table({
     if (!Array.isArray(value)) {
       return [
         {
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           cells: Object.fromEntries(columns.map((col) => [col, ''])),
         },
       ]
@@ -56,7 +57,7 @@ export function Table({
     const validatedRows = value.map((row) => {
       // Ensure row has an id
       if (!row.id) {
-        row.id = crypto.randomUUID()
+        row.id = generateUUID()
       }
 
       // Ensure row has cells object with proper structure
@@ -131,7 +132,7 @@ export function Table({
 
     if (rowIndex === rows.length - 1 && value !== '') {
       updatedRows.push({
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         cells: Object.fromEntries(columns.map((col) => [col, ''])),
       })
     }

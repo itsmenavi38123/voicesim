@@ -6,6 +6,7 @@ import { decryptSecret, encryptSecret } from '@/lib/utils'
 import { getUserId } from '@/app/api/auth/oauth/utils'
 import { db } from '@/db'
 import { environment } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 interface SetEnvironmentVariablesParams {
   variables: Record<string, any> | Array<{ name: string; value: string }>
@@ -93,7 +94,7 @@ export const setEnvironmentVariablesServerTool: BaseServerTool<SetEnvironmentVar
       await db
         .insert(environment)
         .values({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           userId,
           variables: finalEncrypted,
           updatedAt: new Date(),

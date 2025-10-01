@@ -13,6 +13,7 @@ import { getNextWorkflowColor } from '@/stores/workflows/registry/utils'
 import { useSubBlockStore } from '@/stores/workflows/subblock/store'
 import { useWorkflowStore } from '@/stores/workflows/workflow/store'
 import type { BlockState } from '@/stores/workflows/workflow/types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('WorkflowRegistry')
 
@@ -642,7 +643,7 @@ export const useWorkflowRegistry = create<WorkflowRegistry>()(
             logger.info(`Created workflow from marketplace: ${options.marketplaceId}`)
           } else {
             // Create starter block for new workflow
-            const starterId = crypto.randomUUID()
+            const starterId = generateUUID()
             const starterBlock = {
               id: starterId,
               type: 'starter' as const,
@@ -831,7 +832,7 @@ export const useWorkflowRegistry = create<WorkflowRegistry>()(
         state: any,
         metadata: Partial<WorkflowMetadata>
       ) => {
-        const id = crypto.randomUUID()
+        const id = generateUUID()
 
         // Generate workflow metadata with marketplace properties
         const newWorkflow: WorkflowMetadata = {
@@ -1021,7 +1022,7 @@ export const useWorkflowRegistry = create<WorkflowRegistry>()(
         } else {
           // Source is not active workflow, create with starter block for now
           // In a future enhancement, we could fetch from DB
-          const starterId = crypto.randomUUID()
+          const starterId = generateUUID()
           const starterBlock = {
             id: starterId,
             type: 'starter' as const,

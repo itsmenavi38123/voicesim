@@ -10,6 +10,7 @@ import { createLogger } from '@/lib/logs/console/logger'
 import { db } from '@/db'
 import { organization, subscription, user } from '@/db/schema'
 import type { EnterpriseSubscriptionMetadata } from '../types'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('BillingEnterprise')
 
@@ -99,7 +100,7 @@ export async function handleManualEnterpriseSubscription(event: Stripe.Event) {
   }
 
   const subscriptionRow = {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     plan: 'enterprise',
     referenceId,
     stripeCustomerId,

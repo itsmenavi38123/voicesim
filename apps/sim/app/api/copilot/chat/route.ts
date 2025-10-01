@@ -20,6 +20,7 @@ import { S3_COPILOT_CONFIG } from '@/lib/uploads/setup'
 import { downloadFile, getStorageProvider } from '@/lib/uploads/storage-client'
 import { db } from '@/db'
 import { copilotChats } from '@/db/schema'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('CopilotChatAPI')
 
@@ -109,7 +110,7 @@ export async function POST(req: NextRequest) {
       contexts,
     } = ChatMessageSchema.parse(body)
     // Ensure we have a consistent user message ID for this request
-    const userMessageIdToUse = userMessageId || crypto.randomUUID()
+    const userMessageIdToUse = userMessageId || generateUUID()
     try {
       logger.info(`[${tracker.requestId}] Received chat POST`, {
         hasContexts: Array.isArray(contexts),
@@ -720,7 +721,7 @@ export async function POST(req: NextRequest) {
               // Save assistant message if there's any content or tool calls (even partial from abort)
               if (assistantContent.trim() || toolCalls.length > 0) {
                 const assistantMessage = {
-                  id: crypto.randomUUID(),
+                  id: generateUUID(),
                   role: 'assistant',
                   content: assistantContent,
                   timestamp: new Date().toISOString(),
@@ -827,7 +828,7 @@ export async function POST(req: NextRequest) {
       }
 
       const assistantMessage = {
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         role: 'assistant',
         content: responseData.content,
         timestamp: new Date().toISOString(),

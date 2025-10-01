@@ -65,7 +65,7 @@
     "actions": {
       "source": {
         "organizeImports": {
-          "level": "on",
+          "level": "off",
           "options": {
             "groups": [
               [":NODE:", "react", "react/**"],

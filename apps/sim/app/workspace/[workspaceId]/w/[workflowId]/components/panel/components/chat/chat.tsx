@@ -23,6 +23,7 @@ import { useExecutionStore } from '@/stores/execution/store'
 import { useChatStore } from '@/stores/panel/chat/store'
 import { useConsoleStore } from '@/stores/panel/console/store'
 import { useWorkflowRegistry } from '@/stores/workflows/registry/store'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('ChatPanel')
 
@@ -380,7 +381,7 @@ export function Chat({ chatMessage, setChatMessage }: ChatProps) {
                   }
                 } else if (blockId && contentChunk) {
                   if (!messageIdMap.has(blockId)) {
-                    const newMessageId = crypto.randomUUID()
+                    const newMessageId = generateUUID()
                     messageIdMap.set(blockId, newMessageId)
                     addMessage({
                       id: newMessageId,
@@ -645,7 +646,7 @@ export function Chat({ chatMessage, setChatMessage }: ChatProps) {
                   }
 
                   validNewFiles.push({
-                    id: crypto.randomUUID(),
+                    id: generateUUID(),
                     name: file.name,
                     size: file.size,
                     type: file.type,

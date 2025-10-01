@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import { eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
@@ -18,6 +17,7 @@ import { resolveOutputType } from '@/blocks/utils'
 import { db } from '@/db'
 import { customTools, workflowCheckpoints, workflow as workflowTable } from '@/db/schema'
 import { generateLoopBlocks, generateParallelBlocks } from '@/stores/workflows/workflow/utils'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('YamlWorkflowAPI')
 const SIM_AGENT_API_URL = env.SIM_AGENT_API_URL || SIM_AGENT_API_URL_DEFAULT
@@ -212,7 +212,7 @@ async function upsertCustomToolsFromBlocks(
       const match = existingByName.get(name)
       if (!match) {
         await db.insert(customTools).values({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           userId,
           title: tool.title,
           schema: tool.schema,
@@ -397,7 +397,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const blockIdMapping = new Map<string, string>()
 
     for (const block of blocks) {
-      const newId = crypto.randomUUID()
+      const newId = generateUUID()
       blockIdMapping.set(block.id, newId)
 
       // Get block configuration for proper setup
@@ -537,7 +537,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       const targetId = blockIdMapping.get(edge.target)
 
       if (sourceId && targetId) {
-        const newEdgeId = crypto.randomUUID()
+        const newEdgeId = generateUUID()
         newWorkflowState.edges.push({
           id: newEdgeId,
           source: sourceId,

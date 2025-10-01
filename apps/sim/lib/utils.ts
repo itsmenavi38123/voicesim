@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
 import { env } from '@/lib/env'
 import { createLogger } from '@/lib/logs/console/logger'
+import { generateUUID } from '@/lib/uuid'
 
 const logger = createLogger('Utils')
 
@@ -412,7 +413,7 @@ export function getAssetUrl(filename: string) {
  * Generate a short request ID for correlation
  */
 export function generateRequestId(): string {
-  return crypto.randomUUID().slice(0, 8)
+  return generateUUID().slice(0, 8)
 }
 
 /**
