@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
       'http://localhost:3001',
       'http://localhost:3000',
       'http://130.107.72.0:3000',
-      'http://voicesimai.canadacentral.cloudapp.azure.com'
+      'https://voicesimai.canadacentral.cloudapp.azure.com',
     ].filter(Boolean)
     const finalOrigin = allowedOrigins.includes(origin ?? '') ? origin! : (allowedOrigins[0] ?? '*')
     response.headers.set('Access-Control-Allow-Origin', finalOrigin)
