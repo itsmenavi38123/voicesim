@@ -47,5 +47,17 @@ ENV PORT=3002 \
     SOCKET_PORT=3002 \
     HOSTNAME="0.0.0.0"
 
+# Make secrets available via build-args
+ARG NEXT_PUBLIC_SOCKET_URL
+ARG DATABASE_URL
+ARG BETTER_AUTH_URL
+ARG BETTER_AUTH_SECRET
+
+# Set them as environment variables inside container
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL \
+    DATABASE_URL=$DATABASE_URL \
+    BETTER_AUTH_URL=$BETTER_AUTH_URL \
+    BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET
+    
 # Run the socket server directly
 CMD ["bun", "apps/sim/socket-server/index.ts"]

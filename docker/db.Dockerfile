@@ -25,5 +25,8 @@ COPY apps/sim/package.json ./apps/sim/package.json
 COPY apps/sim/lib/env.ts ./apps/sim/lib/env.ts
 
 WORKDIR /app/apps/sim
+
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 # Default command to run migrations
 CMD ["bun", "run", "db:migrate"]
