@@ -130,21 +130,21 @@ function SignupFormContent({
       errors.push(PASSWORD_VALIDATIONS.minLength.message)
     }
 
-    if (!PASSWORD_VALIDATIONS.uppercase.regex.test(passwordValue)) {
-      errors.push(PASSWORD_VALIDATIONS.uppercase.message)
-    }
+    // if (!PASSWORD_VALIDATIONS.uppercase.regex.test(passwordValue)) {
+    //   errors.push(PASSWORD_VALIDATIONS.uppercase.message)
+    // }
 
-    if (!PASSWORD_VALIDATIONS.lowercase.regex.test(passwordValue)) {
-      errors.push(PASSWORD_VALIDATIONS.lowercase.message)
-    }
+    // if (!PASSWORD_VALIDATIONS.lowercase.regex.test(passwordValue)) {
+    //   errors.push(PASSWORD_VALIDATIONS.lowercase.message)
+    // }
 
-    if (!PASSWORD_VALIDATIONS.number.regex.test(passwordValue)) {
-      errors.push(PASSWORD_VALIDATIONS.number.message)
-    }
+    // if (!PASSWORD_VALIDATIONS.number.regex.test(passwordValue)) {
+    //   errors.push(PASSWORD_VALIDATIONS.number.message)
+    // }
 
-    if (!PASSWORD_VALIDATIONS.special.regex.test(passwordValue)) {
-      errors.push(PASSWORD_VALIDATIONS.special.message)
-    }
+    // if (!PASSWORD_VALIDATIONS.special.regex.test(passwordValue)) {
+    //   errors.push(PASSWORD_VALIDATIONS.special.message)
+    // }
 
     return errors
   }
